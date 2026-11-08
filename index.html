@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LKPD Interaktif Matematika: Detektif Rasio (Barisan Geometri)</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- MathJax 3 Engine for Perfect Rendering of Math Formulas -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            },
+            svg: {
+                fontCache: 'global'
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #f1f5f9;
+        }
+        
+        /* Custom Styling MathJax inside table cells */
+        .mjx-chtml {
+            font-size: 105% !important;
+        }
+        
+        /* Responsive Table styling for Touch/Mobile */
+        .table-responsive-container {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+            body {
+                background-color: white !important;
+                padding: 0 !important;
+            }
+            .print-card {
+                border: 1px solid #cbd5e1 !important;
+                box-shadow: none !important;
+                break-inside: avoid;
+            }
+        }
+
+        /* Pulse Animations for Interactive Folding Elements */
+        @keyframes subtlePulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.85; transform: scale(0.98); }
+        }
+        .animate-subtle {
+            animation: subtlePulse 2s infinite ease-in-out;
+        }
+    </style>
+</head>
+<body class="text-slate-800 antialiased min-h-screen pb-12">
+
+    <!-- Top Floating Header (Hidden in Print) -->
+    <header class="bg-indigo-950 text-white shadow-lg sticky top-0 z-50 no-print border-b border-indigo-800">
+        <div class="max-w-5xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <div class="bg-gradient-to-tr from-amber-400 to-amber-300 text-indigo-950 p-2.5 rounded-xl font-bold shadow-md">
+                    <i class="fa-solid fa-magnifying-glass-chart text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-base md:text-lg leading-tight flex items-center gap-2">
+                        <span>LKPD Interaktif Matematika</span>
+                        <span class="bg-indigo-800 text-amber-300 text-[10px] uppercase font-extrabold px-2 py-0.5 rounded-full border border-indigo-700">Fase E</span>
+                    </h1>
+                    <p class="text-xs text-indigo-200">Barisan Geometri • Detektif Rasio (Pertemuan 1)</p>
+                </div>
+            </div>
+            <div class="flex space-x-2">
+                <button onclick="window.print()" class="bg-indigo-800 hover:bg-indigo-700 text-white px-3 py-1.5 rounded-xl text-xs font-semibold transition flex items-center space-x-2 border border-indigo-700 shadow">
+                    <i class="fa-solid fa-print text-amber-300"></i>
+                    <span class="hidden sm:inline">Cetak / PDF</span>
+                </button>
+                <button onclick="resetForm()" class="bg-rose-600 hover:bg-rose-500 text-white px-3 py-1.5 rounded-xl text-xs font-semibold transition flex items-center space-x-2 shadow">
+                    <i class="fa-solid fa-rotate-left"></i>
+                    <span class="hidden sm:inline">Reset</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto px-3 sm:px-4 mt-6 space-y-6">
+
+        <!-- Hero Header Banner with Vector Illustrations -->
+        <div class="bg-gradient-to-r from-indigo-900 via-indigo-800 to-purple-900 rounded-3xl p-6 sm:p-8 text-white shadow-xl relative overflow-hidden print-card border border-indigo-700">
+            <!-- Background Decorative Mathematical Grid SVG Pattern -->
+            <div class="absolute inset-0 opacity-10 pointer-events-none">
+                <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <pattern id="grid" width="30" height="30" patternUnits="userSpaceOnUse">
+                            <path d="M 30 0 L 0 0 0 30" fill="none" stroke="white" stroke-width="1" />
+                        </pattern>
+                    </defs>
+                    <rect width="100%" height="100%" fill="url(#grid)" />
+                </svg>
+            </div>
+            
+            <!-- Floating Decorative Math Illustration -->
+            <div class="absolute right-4 bottom-2 opacity-20 lg:opacity-30 pointer-events-none hidden sm:block">
+                <svg width="180" height="180" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M40 160L160 40M160 40H80M160 40V120" stroke="#FBBF24" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle cx="40" cy="160" r="12" fill="#818CF8"/>
+                    <circle cx="100" cy="100" r="12" fill="#FBBF24"/>
+                    <circle cx="160" cy="40" r="12" fill="#34D399"/>
+                </svg>
+            </div>
+
+            <div class="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+                <div class="space-y-2">
+                    <div class="inline-flex items-center gap-2 bg-amber-400/20 border border-amber-400/40 text-amber-300 text-xs font-extrabold uppercase px-3 py-1 rounded-full backdrop-blur-sm">
+                        <i class="fa-solid fa-sparkles text-amber-400"></i>
+                        <span>Rencana Pembelajaran Mendalam (RPM)</span>
+                    </div>
+                    <h2 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-white">
+                        Detektif Rasio
+                    </h2>
+                    <p class="text-indigo-100 text-xs sm:text-sm max-w-xl leading-relaxed">
+                        Mengungkap Rahasia Pola Pengali Tetap pada Barisan Geometri melalui Eksplorasi Visual & Penyelidikan Kelompok.
+                    </p>
+                </div>
+                
+                <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-4 text-xs space-y-1.5 min-w-[220px]">
+                    <div class="flex justify-between border-b border-white/10 pb-1">
+                        <span class="text-indigo-200">Mata Pelajaran</span>
+                        <b class="text-white">Matematika</b>
+                    </div>
+                    <div class="flex justify-between border-b border-white/10 pb-1">
+                        <span class="text-indigo-200">Satuan Pendidikan</span>
+                        <b class="text-white">SMKN 1 Baros</b>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-indigo-200">Alokasi Waktu</span>
+                        <b class="text-amber-300 font-bold">2 JP × 45 Menit</b>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Group Identity Form Card -->
+        <div class="bg-white rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-200 print-card">
+            <div class="flex items-center space-x-3 mb-4 pb-2 border-b border-slate-100">
+                <div class="bg-indigo-100 text-indigo-700 p-2 rounded-lg">
+                    <i class="fa-solid fa-id-card text-lg"></i>
+                </div>
+                <div>
+                    <h3 class="text-sm sm:text-base font-bold text-slate-800">Identitas Kelompok Peserta Didik</h3>
+                    <p class="text-[11px] text-slate-500">Isi nama kelompok dan peran setiap anggota dengan lengkap.</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Nama Kelompok</label>
+                    <input type="text" id="group-name" placeholder="Contoh: Kelompok Gauss / TAB 3" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm focus:ring-2 focus:ring-indigo-500 focus:bg-white focus:outline-none transition">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Kelas / Semester</label>
+                    <input type="text" value="X TAB 3 / Genap" class="w-full bg-slate-100 border border-slate-300 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm font-semibold text-slate-700 cursor-not-allowed" readonly>
+                </div>
+                <div class="md:col-span-2">
+                    <label class="block text-xs font-bold text-slate-600 uppercase mb-1.5">Anggota Kelompok (4 Orang)</label>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
+                        <div class="relative">
+                            <span class="absolute left-3 top-2.5 text-[10px] font-bold text-indigo-500">1. Ketua</span>
+                            <input type="text" placeholder="Nama siswa" class="w-full bg-slate-50 border border-slate-300 rounded-xl pl-16 pr-3 py-2 text-xs focus:ring-2 focus:ring-indigo-500 focus:bg-white focus:outline-none">
+                        </div>
+                        <div class="relative">
+                            <span class="absolute left-3 top-2.5 text-[10px] font-bold text-indigo-500">2. Penulis</span>
+                            <input type="text" placeholder="Nama siswa" class="w-full bg-slate-50 border border-slate-300 rounded-xl pl-16 pr-3 py-2 text-xs focus:ring-2 focus:ring-indigo-500 focus:bg-white focus:outline-none">
+                        </div>
+                        <div class="relative">
+                            <span class="absolute left-3 top-2.5 text-[10px] font-bold text-indigo-500">3. Pembicara</span>
+                            <input type="text" placeholder="Nama siswa" class="w-full bg-slate-50 border border-slate-300 rounded-xl pl-20 pr-3 py-2 text-xs focus:ring-2 focus:ring-indigo-500 focus:bg-white focus:outline-none">
+                        </div>
+                        <div class="relative">
+                            <span class="absolute left-3 top-2.5 text-[10px] font-bold text-indigo-500">4. Pengamat</span>
+                            <input type="text" placeholder="Nama siswa" class="w-full bg-slate-50 border border-slate-300 rounded-xl pl-20 pr-3 py-2 text-xs focus:ring-2 focus:ring-indigo-500 focus:bg-white focus:outline-none">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Goals & Instructions Card -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="bg-amber-50/80 border border-amber-200 rounded-2xl p-4 flex gap-3.5 items-start">
+                <div class="bg-amber-400 text-amber-950 p-2 rounded-xl text-lg mt-0.5">
+                    <i class="fa-solid fa-bullseye"></i>
+                </div>
+                <div>
+                    <h4 class="font-bold text-amber-950 text-xs sm:text-sm">Tujuan Pembelajaran</h4>
+                    <p class="text-[11px] sm:text-xs text-amber-900 mt-1 leading-relaxed">
+                        Siswa mampu mengidentifikasi ciri barisan geometri dan menentukan rasio ($r$) dari perbandingan antarsuku secara kritis.
+                    </p>
+                </div>
+            </div>
+
+            <div class="bg-indigo-50/80 border border-indigo-200 rounded-2xl p-4 flex gap-3.5 items-start md:col-span-2">
+                <div class="bg-indigo-600 text-white p-2 rounded-xl text-lg mt-0.5">
+                    <i class="fa-solid fa-list-check"></i>
+                </div>
+                <div>
+                    <h4 class="font-bold text-indigo-950 text-xs sm:text-sm">Petunjuk Pengerjaan</h4>
+                    <ul class="text-[11px] sm:text-xs text-indigo-900 mt-1 space-y-1 list-disc list-inside">
+                        <li>Gunakan simulator <b>Aktivitas 1</b> untuk memvisualisasikan perlipatan kertas HVS.</li>
+                        <li>Lengkapi tabel pembagian antarsuku pada <b>Aktivitas 2</b> untuk menemukan nilai Rasio ($r$).</li>
+                        <li>Jawab 3 Pertanyaan Penuntun Diskusi bersama kelompokmu dengan jujur & teliti!</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- AKTIVITAS 1: INTERACTIVE PAPER FOLDING SIMULATOR -->
+        <section class="bg-white rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-200 print-card space-y-5">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-100 pb-3 gap-2">
+                <div class="flex items-center space-x-3">
+                    <span class="bg-indigo-600 text-white font-black text-xs px-3 py-1 rounded-lg uppercase tracking-wider">Aktivitas 1</span>
+                    <h3 class="text-sm sm:text-base font-bold text-slate-800">Eksplorasi Konkrit: Simulasi Lipat Kertas HVS</h3>
+                </div>
+                <span class="text-[11px] text-indigo-600 font-semibold no-print flex items-center gap-1">
+                    <i class="fa-solid fa-hand-pointer"></i> Klik tombol simulator untuk mencoba
+                </span>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                <!-- Visual Folding Interactive Box -->
+                <div class="lg:col-span-5 bg-slate-900 rounded-2xl p-5 text-white flex flex-col items-center justify-center min-h-[260px] no-print relative overflow-hidden border border-slate-800">
+                    <div class="text-[11px] text-slate-400 mb-3 font-mono uppercase tracking-wider flex items-center gap-2">
+                        <i class="fa-solid fa-cubes text-amber-400"></i> Visualizer Perlipatan Kertas
+                    </div>
+                    
+                    <!-- Paper Grid Container -->
+                    <div id="paper-container" class="w-52 h-36 bg-amber-100 border-2 border-amber-400 rounded-xl shadow-2xl grid transition-all duration-500 overflow-hidden text-slate-900 font-extrabold text-xs p-1.5 gap-1.5 grid-cols-1">
+                        <div class="bg-amber-200/90 rounded-lg flex items-center justify-center border border-amber-300">1 Bagian</div>
+                    </div>
+
+                    <!-- Folding Control Buttons -->
+                    <div class="mt-5 flex items-center gap-3">
+                        <button onclick="foldPaper(-1)" id="btn-unfold" class="bg-slate-800 hover:bg-slate-700 text-white text-xs px-3.5 py-2 rounded-xl disabled:opacity-30 disabled:cursor-not-allowed transition font-semibold flex items-center gap-1.5" disabled>
+                            <i class="fa-solid fa-minus"></i> Buka
+                        </button>
+                        <span id="fold-count-display" class="font-bold text-amber-400 text-xs px-2 text-center min-w-[80px]">0 Lipatan</span>
+                        <button onclick="foldPaper(1)" id="btn-fold" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs px-3.5 py-2 rounded-xl transition font-semibold flex items-center gap-1.5 shadow-md shadow-indigo-900/50">
+                            <i class="fa-solid fa-plus"></i> Lipat 2x
+                        </button>
+                    </div>
+                    
+                    <p class="text-[11px] text-slate-400 mt-3 text-center">
+                        Banyak bagian terbentuk: <b id="parts-display" class="text-amber-300 text-sm">1</b> bagian
+                    </p>
+                </div>
+
+                <!-- Activity 1 Observation Table -->
+                <div class="lg:col-span-7 space-y-3">
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        Catatlah banyak bagian kertas yang terbentuk setiap kali kertas dilipat menjadi 2 bagian yang sama besar:
+                    </p>
+                    
+                    <div class="table-responsive-container">
+                        <table class="w-full text-xs text-left text-slate-700 border border-slate-200 rounded-xl overflow-hidden">
+                            <thead class="bg-slate-100 text-slate-800 uppercase font-bold text-[11px]">
+                                <tr>
+                                    <th class="px-3.5 py-2.5 border-b">Jumlah Lipatan</th>
+                                    <th class="px-3.5 py-2.5 border-b">Banyak Bagian ($U_n$)</th>
+                                    <th class="px-3.5 py-2.5 border-b">Pola Perkalian</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-200">
+                                <tr class="bg-white">
+                                    <td class="px-3.5 py-2.5 font-semibold text-slate-800">0 Lipatan (Awal)</td>
+                                    <td class="px-3.5 py-2.5"><b class="text-indigo-700">$U_1 = 1$</b> bagian</td>
+                                    <td class="px-3.5 py-2.5 text-slate-500">Kertas awal utuh</td>
+                                </tr>
+                                <tr class="bg-slate-50/60">
+                                    <td class="px-3.5 py-2.5 font-semibold text-slate-800">1 Lipatan</td>
+                                    <td class="px-3.5 py-2.5"><b class="text-indigo-700">$U_2 = 2$</b> bagian</td>
+                                    <td class="px-3.5 py-2.5 text-slate-600">$1 \times 2 = 2$</td>
+                                </tr>
+                                <tr class="bg-white">
+                                    <td class="px-3.5 py-2.5 font-semibold text-slate-800">2 Lipatan</td>
+                                    <td class="px-3.5 py-2.5"><b class="text-indigo-700">$U_3 = 4$</b> bagian</td>
+                                    <td class="px-3.5 py-2.5 text-slate-600">$2 \times 2 = 4$</td>
+                                </tr>
+                                <tr class="bg-indigo-50/40">
+                                    <td class="px-3.5 py-2.5 font-bold text-indigo-900">3 Lipatan</td>
+                                    <td class="px-3.5 py-2.5">
+                                        <div class="flex items-center gap-1">
+                                            <span class="font-semibold text-indigo-900">$U_4 =$</span>
+                                            <input type="number" id="act1-q1" placeholder="?" class="w-14 bg-white border border-indigo-300 rounded-lg px-2 py-1 text-center font-extrabold text-indigo-900 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                        </div>
+                                    </td>
+                                    <td class="px-3.5 py-2.5">
+                                        <input type="text" id="act1-p1" placeholder="contoh: 4 x 2 = 8" class="w-full bg-white border border-slate-300 rounded-lg px-2.5 py-1 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                    </td>
+                                </tr>
+                                <tr class="bg-indigo-50/40">
+                                    <td class="px-3.5 py-2.5 font-bold text-indigo-900">4 Lipatan</td>
+                                    <td class="px-3.5 py-2.5">
+                                        <div class="flex items-center gap-1">
+                                            <span class="font-semibold text-indigo-900">$U_5 =$</span>
+                                            <input type="number" id="act1-q2" placeholder="?" class="w-14 bg-white border border-indigo-300 rounded-lg px-2 py-1 text-center font-extrabold text-indigo-900 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                        </div>
+                                    </td>
+                                    <td class="px-3.5 py-2.5">
+                                        <input type="text" id="act1-p2" placeholder="contoh: 8 x 2 = 16" class="w-full bg-white border border-slate-300 rounded-lg px-2.5 py-1 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- AKTIVITAS 2: DETEKTIF RASIO (MEMBANDINGKAN SUKU) -->
+        <section class="bg-white rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-200 print-card space-y-4">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-100 pb-3 gap-2">
+                <div class="flex items-center space-x-3">
+                    <span class="bg-purple-600 text-white font-black text-xs px-3 py-1 rounded-lg uppercase tracking-wider">Aktivitas 2</span>
+                    <h3 class="text-sm sm:text-base font-bold text-slate-800">Tabel Detektif Rasio (Perbandingan Antarsuku)</h3>
+                </div>
+            </div>
+
+            <p class="text-xs text-slate-600 leading-relaxed">
+                Hitunglah hasil bagi antara suatu suku dengan suku sebelumnya ($\frac{U_2}{U_1}$, $\frac{U_3}{U_2}$, $\frac{U_4}{U_3}$). Tentukan apakah hasil baginya <b>tetap</b>, lalu klasifikasikan jenis barisannya!
+            </p>
+
+            <!-- Table Container with MathJax rendered headers -->
+            <div class="table-responsive-container">
+                <table class="w-full text-xs text-left border border-slate-200 rounded-xl overflow-hidden min-w-[640px]">
+                    <thead class="bg-slate-100 text-slate-800 uppercase font-bold text-[11px]">
+                        <tr>
+                            <th class="px-3 py-2.5 border-b min-w-[140px]">Barisan Bilangan</th>
+                            <th class="px-3 py-2.5 border-b w-24">$\frac{U_2}{U_1}$</th>
+                            <th class="px-3 py-2.5 border-b w-24">$\frac{U_3}{U_2}$</th>
+                            <th class="px-3 py-2.5 border-b w-24">$\frac{U_4}{U_3}$</th>
+                            <th class="px-3 py-2.5 border-b w-32">Hasil Bagi Tetap?</th>
+                            <th class="px-3 py-2.5 border-b w-36">Jenis Barisan</th>
+                            <th class="px-3 py-2.5 border-b w-24">Rasio ($r$)</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-200 text-xs">
+                        <!-- Row A (Example Given) -->
+                        <tr class="bg-slate-50/50">
+                            <td class="px-3 py-2.5 font-bold text-indigo-950">A. 2, 6, 18, 54</td>
+                            <td class="px-3 py-2.5 text-slate-700 font-mono">6/2 = 3</td>
+                            <td class="px-3 py-2.5 text-slate-700 font-mono">18/6 = 3</td>
+                            <td class="px-3 py-2.5 text-slate-700 font-mono">54/18 = 3</td>
+                            <td class="px-3 py-2.5 text-emerald-700 font-bold">Ya (Tetap 3)</td>
+                            <td class="px-3 py-2.5 font-extrabold text-indigo-700">Geometri</td>
+                            <td class="px-3 py-2.5 font-bold text-slate-800">$r = 3$</td>
+                        </tr>
+                        <!-- Row B (Example Given) -->
+                        <tr class="bg-slate-50/50">
+                            <td class="px-3 py-2.5 font-bold text-indigo-950">B. 4, 9, 14, 19</td>
+                            <td class="px-3 py-2.5 text-slate-700 font-mono">9/4 = 2.25</td>
+                            <td class="px-3 py-2.5 text-slate-700 font-mono">14/9 = 1.55</td>
+                            <td class="px-3 py-2.5 text-slate-700 font-mono">19/14 = 1.35</td>
+                            <td class="px-3 py-2.5 text-rose-600 font-bold">Tidak Tetap</td>
+                            <td class="px-3 py-2.5 font-bold text-amber-700">Aritmetika (+5)</td>
+                            <td class="px-3 py-2.5 text-slate-400 font-semibold">Tidak Ada</td>
+                        </tr>
+
+                        <!-- Row C (Student Interactive Input) -->
+                        <tr class="bg-indigo-50/20">
+                            <td class="px-3 py-2.5 font-bold text-indigo-900">C. 100, 50, 25, 12.5</td>
+                            <td class="px-3 py-2.5"><input type="text" id="rC1" placeholder="50/100 = ?" class="w-full bg-white border border-slate-300 rounded-lg px-2 py-1 text-xs"></td>
+                            <td class="px-3 py-2.5"><input type="text" id="rC2" placeholder="25/50 = ?" class="w-full bg-white border border-slate-300 rounded-lg px-2 py-1 text-xs"></td>
+                            <td class="px-3 py-2.5"><input type="text" id="rC3" placeholder="12.5/25 = ?" class="w-full bg-white border border-slate-300 rounded-lg px-2 py-1 text-xs"></td>
+                            <td class="px-3 py-2.5">
+                                <select id="tetapC" class="w-full bg-white border border-slate-300 rounded-lg px-2 py-1 text-xs">
+                                    <option value="">--Pilih--</option>
+                                    <option value="ya">Ya (Tetap)</option>
+                                    <option value="tidak">Tidak</option>
+                                </select>
+                            </td>
+                            <td class="px-3 py-2.5">
+                                <select id="jenisC" class="w-full bg-white border border-slate-300 rounded-lg px-2 py-1 text-xs font-semibold">
+                                    <option value="">--Pilih--</option>
+                                    <option value="geometri">Geometri</option>
+                                    <option value="aritmetika">Aritmetika</option>
+                                    <option value="bukan">Bukan Keduanya</option>
+                                </select>
+                            </td>
+                            <td class="px-3 py-2.5"><input type="text" id="rasioC" placeholder="r = ?" class="w-full bg-white border border-slate-300 rounded-lg px-2 py-1 text-xs font-bold text-indigo-900"></td>
+                        </tr>
+
+                        <!-- Row D (Student Interactive Input) -->
+                        <tr class="bg-indigo-50/20">
+                            <td class="px-3 py-2.5 font-bold text-indigo-900">D. 3, −6, 12, −24</td>
+                            <td class="px-3 py-2.5"><input type="text" id="rD1" placeholder="-6/3 = ?" class="w-full bg-white border border-slate-300 rounded-lg px-2 py-1 text-xs"></td>
+                            <td class="px-3 py-2.5"><input type="text" id="rD2" placeholder="12/-6 = ?" class="w-full bg-white border border-slate-300 rounded-lg px-2 py-1 text-xs"></td>
+                            <td class="px-3 py-2.5"><input type="text" id="rD3" placeholder="-24/12 = ?" class="w-full bg-white border border-slate-300 rounded-lg px-2 py-1 text-xs"></td>
+                            <td class="px-3 py-2.5">
+                                <select id="tetapD" class="w-full bg-white border border-slate-300 rounded-lg px-2 py-1 text-xs">
+                                    <option value="">--Pilih--</option>
+                                    <option value="ya">Ya (Tetap)</option>
+                                    <option value="tidak">Tidak</option>
+                                </select>
+                            </td>
+                            <td class="px-3 py-2.5">
+                                <select id="jenisD" class="w-full bg-white border border-slate-300 rounded-lg px-2 py-1 text-xs font-semibold">
+                                    <option value="">--Pilih--</option>
+                                    <option value="geometri">Geometri</option>
+                                    <option value="aritmetika">Aritmetika</option>
+                                    <option value="bukan">Bukan Keduanya</option>
+                                </select>
+                            </td>
+                            <td class="px-3 py-2.5"><input type="text" id="rasioD" placeholder="r = ?" class="w-full bg-white border border-slate-300 rounded-lg px-2 py-1 text-xs font-bold text-indigo-900"></td>
+                        </tr>
+
+                        <!-- Row E (Student Interactive Input) -->
+                        <tr class="bg-indigo-50/20">
+                            <td class="px-3 py-2.5 font-bold text-indigo-900">E. 5, 10, 20, 40</td>
+                            <td class="px-3 py-2.5"><input type="text" id="rE1" placeholder="10/5 = ?" class="w-full bg-white border border-slate-300 rounded-lg px-2 py-1 text-xs"></td>
+                            <td class="px-3 py-2.5"><input type="text" id="rE2" placeholder="20/10 = ?" class="w-full bg-white border border-slate-300 rounded-lg px-2 py-1 text-xs"></td>
+                            <td class="px-3 py-2.5"><input type="text" id="rE3" placeholder="40/20 = ?" class="w-full bg-white border border-slate-300 rounded-lg px-2 py-1 text-xs"></td>
+                            <td class="px-3 py-2.5">
+                                <select id="tetapE" class="w-full bg-white border border-slate-300 rounded-lg px-2 py-1 text-xs">
+                                    <option value="">--Pilih--</option>
+                                    <option value="ya">Ya (Tetap)</option>
+                                    <option value="tidak">Tidak</option>
+                                </select>
+                            </td>
+                            <td class="px-3 py-2.5">
+                                <select id="jenisE" class="w-full bg-white border border-slate-300 rounded-lg px-2 py-1 text-xs font-semibold">
+                                    <option value="">--Pilih--</option>
+                                    <option value="geometri">Geometri</option>
+                                    <option value="aritmetika">Aritmetika</option>
+                                    <option value="bukan">Bukan Keduanya</option>
+                                </select>
+                            </td>
+                            <td class="px-3 py-2.5"><input type="text" id="rasioE" placeholder="r = ?" class="w-full bg-white border border-slate-300 rounded-lg px-2 py-1 text-xs font-bold text-indigo-900"></td>
+                        </tr>
+
+                        <!-- Row F (Student Interactive Input) -->
+                        <tr class="bg-indigo-50/20">
+                            <td class="px-3 py-2.5 font-bold text-indigo-900">F. 1, 4, 9, 16</td>
+                            <td class="px-3 py-2.5"><input type="text" id="rF1" placeholder="4/1 = ?" class="w-full bg-white border border-slate-300 rounded-lg px-2 py-1 text-xs"></td>
+                            <td class="px-3 py-2.5"><input type="text" id="rF2" placeholder="9/4 = ?" class="w-full bg-white border border-slate-300 rounded-lg px-2 py-1 text-xs"></td>
+                            <td class="px-3 py-2.5"><input type="text" id="rF3" placeholder="16/9 = ?" class="w-full bg-white border border-slate-300 rounded-lg px-2 py-1 text-xs"></td>
+                            <td class="px-3 py-2.5">
+                                <select id="tetapF" class="w-full bg-white border border-slate-300 rounded-lg px-2 py-1 text-xs">
+                                    <option value="">--Pilih--</option>
+                                    <option value="ya">Ya (Tetap)</option>
+                                    <option value="tidak">Tidak</option>
+                                </select>
+                            </td>
+                            <td class="px-3 py-2.5">
+                                <select id="jenisF" class="w-full bg-white border border-slate-300 rounded-lg px-2 py-1 text-xs font-semibold">
+                                    <option value="">--Pilih--</option>
+                                    <option value="geometri">Geometri</option>
+                                    <option value="aritmetika">Aritmetika</option>
+                                    <option value="bukan">Bukan Keduanya</option>
+                                </select>
+                            </td>
+                            <td class="px-3 py-2.5"><input type="text" id="rasioF" placeholder="r = ?" class="w-full bg-white border border-slate-300 rounded-lg px-2 py-1 text-xs font-bold text-indigo-900"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- AKTIVITAS 3: DISKUSI REFLEKTIF KELOMPOK -->
+        <section class="bg-white rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-200 print-card space-y-4">
+            <div class="flex items-center space-x-3 border-b border-slate-100 pb-3">
+                <span class="bg-emerald-600 text-white font-black text-xs px-3 py-1 rounded-lg uppercase tracking-wider">Aktivitas 3</span>
+                <h3 class="text-sm sm:text-base font-bold text-slate-800">Pertanyaan Penuntun Diskusi Kelompok</h3>
+            </div>
+
+            <div class="space-y-4 text-xs">
+                <!-- Question 1 -->
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2">
+                    <label class="font-bold text-slate-800 text-xs sm:text-sm block leading-relaxed">
+                        1. Berdasarkan hasil pengamatanmu pada Aktivitas 1 & 2, apa perbedaan utama antara barisan Aritmetika dan barisan Geometri?
+                    </label>
+                    <textarea id="disc-q1" rows="3" placeholder="Jelaskan menggunakan katamu sendiri (petunjuk: perhatikan operasi penambahan vs perkalian)..." class="w-full bg-white border border-slate-300 rounded-xl p-3 text-xs focus:ring-2 focus:ring-emerald-500 focus:outline-none"></textarea>
+                </div>
+
+                <!-- Question 2 -->
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2">
+                    <label class="font-bold text-slate-800 text-xs sm:text-sm block leading-relaxed">
+                        2. Perbandingan tetap antara dua suku yang berurutan pada barisan geometri dinamakan <span class="text-indigo-700 font-extrabold uppercase">Rasio ($r$)</span>. Tuliskan rumus sederhana menentukan nilai rasio ($r$) berdasarkan pengamatanmu!
+                    </label>
+                    <textarea id="disc-q2" rows="2" placeholder="Tuliskan rumusnya di sini (misal: r = U2 / U1 atau cara membaginya)..." class="w-full bg-white border border-slate-300 rounded-xl p-3 text-xs focus:ring-2 focus:ring-emerald-500 focus:outline-none"></textarea>
+                </div>
+
+                <!-- Question 3 -->
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2">
+                    <label class="font-bold text-slate-800 text-xs sm:text-sm block leading-relaxed">
+                        3. Apakah nilai rasio ($r$) pada barisan geometri boleh berupa bilangan pecahan atau bilangan negatif? Berikan contoh huruf barisan dari tabel Aktivitas 2!
+                    </label>
+                    <textarea id="disc-q3" rows="2" placeholder="Berikan alasan beserta contoh dari tabel Aktivitas 2 di atas..." class="w-full bg-white border border-slate-300 rounded-xl p-3 text-xs focus:ring-2 focus:ring-emerald-500 focus:outline-none"></textarea>
+                </div>
+            </div>
+        </section>
+
+        <!-- SUBMIT & AUTO-EVALUATION ACTION BAR -->
+        <div class="bg-slate-900 rounded-2xl p-5 sm:p-6 text-white shadow-xl flex flex-col sm:flex-row justify-between items-center gap-4 no-print border border-slate-800">
+            <div class="space-y-0.5 text-center sm:text-left">
+                <h4 class="font-bold text-sm sm:text-base flex items-center justify-center sm:justify-start gap-2 text-white">
+                    <i class="fa-solid fa-circle-check text-emerald-400"></i> Uji Jawaban & Evaluasi Kelompok
+                </h4>
+                <p class="text-xs text-slate-400">Periksa ketepatan pengisian tabel Aktivitas 1 & Aktivitas 2 secara otomatis.</p>
+            </div>
+            <div class="flex items-center gap-3">
+                <button onclick="checkAnswers()" class="bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 font-black px-6 py-3 rounded-xl text-xs transition shadow-lg flex items-center space-x-2">
+                    <i class="fa-solid fa-calculator text-base"></i>
+                    <span>Cek Skor Kelompok</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Feedback Result Card (Hidden by default) -->
+        <div id="feedback-card" class="hidden bg-emerald-950 border border-emerald-600 text-white p-6 rounded-2xl shadow-xl no-print space-y-3">
+            <div class="flex items-center justify-between border-b border-emerald-800 pb-3">
+                <h4 class="font-extrabold text-base sm:text-lg flex items-center gap-2 text-white">
+                    <i class="fa-solid fa-trophy text-amber-400 text-xl"></i> Hasil Evaluasi Mandiri LKPD
+                </h4>
+                <span id="score-badge" class="bg-amber-400 text-slate-950 font-black text-xs sm:text-sm px-3.5 py-1.5 rounded-full shadow-md">Skor Tabel: 0 / 100</span>
+            </div>
+            <p id="feedback-text" class="text-xs sm:text-sm text-emerald-100 leading-relaxed"></p>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="mt-12 text-center text-xs text-slate-400 no-print">
+        <p>© 2026 Modul Ajar Matematika SMKN 1 Baros • Kurikulum Merdeka (Pembelajaran Mendalam)</p>
+    </footer>
+
+    <!-- Interactive Script -->
+    <script>
+        let currentFold = 0;
+        const foldCounts = [1, 2, 4, 8, 16];
+
+        function foldPaper(delta) {
+            currentFold += delta;
+            if (currentFold < 0) currentFold = 0;
+            if (currentFold > 4) currentFold = 4;
+
+            document.getElementById('btn-unfold').disabled = (currentFold === 0);
+            document.getElementById('btn-fold').disabled = (currentFold === 4);
+
+            document.getElementById('fold-count-display').innerText = `${currentFold} Lipatan`;
+            document.getElementById('parts-display').innerText = foldCounts[currentFold];
+
+            const container = document.getElementById('paper-container');
+            container.innerHTML = '';
+            
+            // Adjust grid columns dynamically
+            let cols = 1;
+            if (currentFold === 1) cols = 2;
+            if (currentFold === 2) cols = 2;
+            if (currentFold === 3) cols = 4;
+            if (currentFold === 4) cols = 4;
+
+            container.className = `w-52 h-36 bg-amber-100 border-2 border-amber-400 rounded-xl shadow-2xl grid transition-all duration-500 overflow-hidden text-slate-900 font-extrabold text-xs p-1.5 gap-1.5 grid-cols-${cols}`;
+
+            for (let i = 1; i <= foldCounts[currentFold]; i++) {
+                const box = document.createElement('div');
+                box.className = 'bg-amber-200/90 rounded-lg flex items-center justify-center border border-amber-300 text-[10px] sm:text-xs animate-subtle shadow-sm';
+                box.innerText = `${i}`;
+                container.appendChild(box);
+            }
+        }
+
+        function checkAnswers() {
+            let score = 0;
+
+            // Check Activity 1 (30 Points)
+            const q1 = parseInt(document.getElementById('act1-q1').value);
+            const q2 = parseInt(document.getElementById('act1-q2').value);
+            if (q1 === 8) score += 15;
+            if (q2 === 16) score += 15;
+
+            // Check Activity 2 Table (70 Points)
+            // Row C: 100, 50, 25, 12.5 (r = 0.5 or 1/2)
+            const tetapC = document.getElementById('tetapC').value;
+            const jenisC = document.getElementById('jenisC').value;
+            const rasioC = document.getElementById('rasioC').value.toLowerCase().replace(/\s+/g, '');
+            if (tetapC === 'ya') score += 5;
+            if (jenisC === 'geometri') score += 5;
+            if (rasioC.includes('1/2') || rasioC.includes('0.5')) score += 7.5;
+
+            // Row D: 3, -6, 12, -24 (r = -2)
+            const tetapD = document.getElementById('tetapD').value;
+            const jenisD = document.getElementById('jenisD').value;
+            const rasioD = document.getElementById('rasioD').value.toLowerCase().replace(/\s+/g, '');
+            if (tetapD === 'ya') score += 5;
+            if (jenisD === 'geometri') score += 5;
+            if (rasioD.includes('-2')) score += 7.5;
+
+            // Row E: 5, 10, 20, 40 (r = 2)
+            const tetapE = document.getElementById('tetapE').value;
+            const jenisE = document.getElementById('jenisE').value;
+            const rasioE = document.getElementById('rasioE').value.toLowerCase().replace(/\s+/g, '');
+            if (tetapE === 'ya') score += 5;
+            if (jenisE === 'geometri') score += 5;
+            if (rasioE.includes('2')) score += 7.5;
+
+            // Row F: 1, 4, 9, 16 (Bukan Keduanya)
+            const tetapF = document.getElementById('tetapF').value;
+            const jenisF = document.getElementById('jenisF').value;
+            if (tetapF === 'tidak') score += 8.5;
+            if (jenisF === 'bukan') score += 9;
+
+            // Show Feedback Card
+            const feedbackCard = document.getElementById('feedback-card');
+            const scoreBadge = document.getElementById('score-badge');
+            const feedbackText = document.getElementById('feedback-text');
+
+            feedbackCard.classList.remove('hidden');
+            scoreBadge.innerText = `Skor Tabel: ${Math.round(score)} / 100`;
+
+            if (score >= 85) {
+                feedbackText.innerHTML = "<b>Sangat Luar Biasa! 🎉</b> Seluruh isian tabel Aktivitas 1 dan Aktivitas 2 kelompokmu tepat. Sekarang pastikan kalian telah mendiskusikan 3 Pertanyaan Penuntun di Aktivitas 3!";
+            } else if (score >= 60) {
+                feedbackText.innerHTML = "<b>Kerja Bagus! 👍</b> Sebagian besar tabel sudah tepat. Periksa kembali perbandingan pecahan pada Barisan C dan rasio negatif pada Barisan D.";
+            } else {
+                feedbackText.innerHTML = "<b>Tetap Semangat! 💪</b> Coba hitung kembali pembagian U2/U1 dan U3/U2 bersama teman sekelompokmu.";
+            }
+
+            // Re-render MathJax inside feedback if needed
+            if (window.MathJax) {
+                MathJax.typesetPromise();
+            }
+
+            feedbackCard.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function resetForm() {
+            if (confirm('Apakah kamu yakin ingin mengosongkan seluruh jawaban LKPD?')) {
+                document.querySelectorAll('input, select, textarea').forEach(el => {
+                    if (el.type !== 'button' && !el.readOnly) {
+                        el.value = '';
+                    }
+                });
+                document.getElementById('feedback-card').classList.add('hidden');
+                currentFold = 0;
+                foldPaper(0);
+            }
+        }
+    </script>
+</body>
+</html>
